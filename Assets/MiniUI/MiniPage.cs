@@ -5,13 +5,11 @@ public class MiniPage : MonoBehaviour {
     private UIDocument doc;
     private VisualElement root;
 
-    public MiniPage()
-    {
+    public MiniPage() {
 
     }
 
-    public MiniPage(MonoBehaviour context)
-    {
+    public MiniPage(MonoBehaviour context) {
         Init(context);
     }
 
