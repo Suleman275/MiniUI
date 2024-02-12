@@ -21,7 +21,7 @@ public class MiniPage {
         document = context.gameObject.GetComponent<UIDocument>();
         if (document == null)
         {
-            Debug.LogError("UIDocument could not be created");
+            Debug.LogError("UIDocument could not be found on this GameObject");
             return false;
         }
         else
