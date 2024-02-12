@@ -1,8 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MiniPage : MonoBehaviour
-{
+public class MiniPage {
     public UIDocument document;
     public VisualElement root;
 
@@ -18,7 +18,7 @@ public class MiniPage : MonoBehaviour
 
     public bool Init(MonoBehaviour context)
     {
-        document = context.gameObject.AddComponent<UIDocument>();
+        document = context.gameObject.GetComponent<UIDocument>();
         if (document == null)
         {
             Debug.LogError("UIDocument could not be created");
