@@ -1,35 +1,34 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class MiniPage {
-    public UIDocument document;
-    public VisualElement root;
+public class MiniPage : MonoBehaviour {
+    private UIDocument document;
+    private VisualElement root;
 
-    public MiniPage() {
+    public void OnEnable() {
+        document = GetComponent<UIDocument>();
 
-    }
-
-    public MiniPage(MonoBehaviour context) {
-        Init(context);
-    }
-
-    public bool Init(MonoBehaviour context) {
-        document = context.gameObject.GetComponent<UIDocument>();
-        if (document == null) {
-            Debug.LogError("UIDocument could not be found on this GameObject");
-            return false;
-        }
-        else {
-            root = document.rootVisualElement;
-
-            if (root == null) {
-                Debug.Log("Root Visual Element could not be found");
-                return false;
-            }
+        if (document == null ) {
+            Debug.LogError("UI Document component could not be found");
+            return;
         }
 
-        return true;
+        root = document.rootVisualElement;
+        root.Clear();
+        RenderPage();
     }
+
+    private void OnValidate() {
+        if (Application.isPlaying)
+            return;
+        OnEnable();
+    }
+
+    public virtual void RenderPage() {
+        throw new NotImplementedException();
+    }
+
 
     public void addElement<T>(T element) where T : VisualElement {
         root.Add(element);
@@ -67,30 +66,73 @@ public class MiniPage {
         return element;
     }
 
-    public MiniPage AddStylesheet(StyleSheet styleSheet) {
+    public void AddStylesheet(StyleSheet styleSheet) {
         root.styleSheets.Add(styleSheet);
-
-        return this;
     }
 
-    public bool RemoveStyleSheet(StyleSheet styleSheet) {
+
+    public void RemoveStyleSheet(StyleSheet styleSheet) {
         root.styleSheets.Remove(styleSheet);
-
-        return !root.styleSheets.Contains(styleSheet);
     }
-
 
     public void Enable() {
-        root.SetEnabled(true);
+        //root.SetEnabled(true);
+        gameObject.SetActive(true);
     }
 
     public void Disable() {
-        root.SetEnabled(false);
+        //root.SetEnabled(false);
+        gameObject.SetActive(false);
     }
 
-    public MiniPage SetBackGroundColor(Color color) {
+    public void SetBackGroundColor(Color color) {
         root.style.backgroundColor = color;
+    }
 
-        return this;
+    public void NavigateTo(MiniPage page) {
+        if (page == this) {
+            Debug.LogError("This page is already active");
+            return;
+        }
+        Disable();
+        page.Enable();
+    }
+
+    public Button CreateAndAddButton() {
+        Button btn = new Button();
+        root.Add(btn);
+
+        return btn;
+    }
+
+    public Button CreateAndAddButton(string buttonText) {
+        Button btn = new Button();
+        btn.text = buttonText;
+        root.Add(btn);
+
+        return btn;
+    }
+
+    public Button CreateAndAddButton(string buttonText, params string[] classes) {
+        Button btn = CreateAndAddElement<Button>(classes);
+        btn.text = buttonText;
+
+        return btn;
+    }
+
+    public Button CreateAndAddButton(string buttonText, Action clickHandler, params string[] classes) {
+        Button btn = CreateAndAddElement<Button>(classes);
+        btn.text = buttonText;
+        btn.clicked += clickHandler;
+
+        return btn;
+    }
+
+    public Button CreateAndAddButton(string buttonText, Action clickHandler) {
+        Button btn = CreateAndAddElement<Button>();
+        btn.text = buttonText;
+        btn.clicked += clickHandler;
+
+        return btn;
     }
 }
