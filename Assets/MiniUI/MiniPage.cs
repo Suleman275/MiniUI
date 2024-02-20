@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,26 +7,31 @@ public class MiniPage : MonoBehaviour {
     private UIDocument document;
     private VisualElement root;
 
-    public void OnEnable() {
+    public virtual void OnEnable() {
+        Init();
+        StartCoroutine(RenderPage());
+    }
+
+    private void OnValidate() {
+        if (Application.isPlaying)
+            return;
+        Init();
+        StartCoroutine(RenderPage());
+    }
+
+    protected void Init() {
         document = GetComponent<UIDocument>();
 
-        if (document == null ) {
+        if (document == null) {
             Debug.LogError("UI Document component could not be found");
             return;
         }
 
         root = document.rootVisualElement;
         root.Clear();
-        RenderPage();
     }
 
-    private void OnValidate() {
-        if (Application.isPlaying)
-            return;
-        OnEnable();
-    }
-
-    public virtual void RenderPage() {
+    public virtual IEnumerator RenderPage() {
         throw new NotImplementedException();
     }
 
@@ -80,9 +86,17 @@ public class MiniPage : MonoBehaviour {
         gameObject.SetActive(true);
     }
 
+    public void EnablePage() {
+        enabled = true;
+    }
+
     public void Disable() {
         //root.SetEnabled(false);
         gameObject.SetActive(false);
+    }
+
+    public void DisablePage() {
+        enabled = false;
     }
 
     public void SetBackGroundColor(Color color) {
@@ -96,6 +110,15 @@ public class MiniPage : MonoBehaviour {
         }
         Disable();
         page.Enable();
+    }
+
+    public void ReplacePage(MiniPage page) {
+        if (page == this) {
+            Debug.LogError("This page is already active");
+            return;
+        }
+        DisablePage();
+        page.EnablePage();
     }
 
     public Button CreateAndAddButton() {
