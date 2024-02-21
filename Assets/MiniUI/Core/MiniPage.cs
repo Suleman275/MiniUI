@@ -7,6 +7,8 @@ public class MiniPage : MonoBehaviour {
     private UIDocument document;
     private VisualElement root;
 
+    [SerializeField] bool showPreview;
+
     public virtual void OnEnable() {
         Init();
         StartCoroutine(RenderPage());
@@ -15,8 +17,10 @@ public class MiniPage : MonoBehaviour {
     private void OnValidate() {
         if (Application.isPlaying)
             return;
-        Init();
-        StartCoroutine(RenderPage());
+        if (showPreview) {
+            Init();
+            StartCoroutine(RenderPage());
+        }
     }
 
     protected void Init() {
