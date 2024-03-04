@@ -1,41 +1,46 @@
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
-public class MiniObjectRouter : MonoBehaviour {
-    public static MiniObjectRouter Instance;
+namespace MiniUI {
+    public class MiniObjectRouter : MonoBehaviour {
+        public static MiniObjectRouter Instance;
 
-    [SerializedDictionary("Page Identfier", "Page Reference")]
-    public SerializedDictionary<string, MiniPage> routes;
+        [SerializedDictionary("Page Identfier", "Page Reference")]
+        public SerializedDictionary<string, MiniPage> routes;
 
-    private void Awake() {
-        Instance = this;
-    }
-
-    public void RegisterRoute(string identifier, MiniPage page) {
-        routes.Add(identifier, page);
-    }
-
-    public void EnablePage(string identifier) {
-        if (!routes.ContainsKey(identifier)) {
-            Debug.LogError("This page is not registered with router");
-            return;
+        private void Awake() {
+            Instance = this;
         }
-        routes[identifier].Enable();
-    }
 
-    public void DisablePage(string identifier) {
-        if (!routes.ContainsKey(identifier)) {
-            Debug.LogError("This page is not registered with router");
-            return;
+        public void RegisterRoute(string identifier, MiniPage page) {
+            routes.Add(identifier, page);
         }
-        routes[identifier].Disable();
-    }
 
-    public void NavigateTo(MiniPage from, string identifier) {
-        if (!routes.ContainsKey(identifier)) {
-            Debug.LogError("This page is not registered with router");
-            return;
+        public void EnablePage(string identifier) {
+            if (!routes.ContainsKey(identifier)) {
+                Debug.LogError("This page is not registered with router");
+                return;
+            }
+
+            routes[identifier].Enable();
         }
-        from.NavigateTo(routes[identifier]);
+
+        public void DisablePage(string identifier) {
+            if (!routes.ContainsKey(identifier)) {
+                Debug.LogError("This page is not registered with router");
+                return;
+            }
+
+            routes[identifier].Disable();
+        }
+
+        public void NavigateTo(MiniPage from, string identifier) {
+            if (!routes.ContainsKey(identifier)) {
+                Debug.LogError("This page is not registered with router");
+                return;
+            }
+
+            from.NavigateTo(routes[identifier]);
+        }
     }
 }
