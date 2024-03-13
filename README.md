@@ -1,2 +1,2 @@
 # MiniUI
- A small UI framework/helper class for building UIs in Unity
+ A small UI Library for building UIs in Unity and routing between pages.
