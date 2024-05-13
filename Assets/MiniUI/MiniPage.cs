@@ -18,6 +18,7 @@ namespace MiniUI {
 
         private void OnDisable() {
             _root.Clear();
+            _root.styleSheets.Clear();
         }
 
         private void OnValidate() {
