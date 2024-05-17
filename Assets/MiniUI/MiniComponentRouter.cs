@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace MiniUI {
     public class MiniComponentRouter : MonoBehaviour {
+        public List<StyleSheet> styles;
+
         private Dictionary<string, MiniPage> _pages;
         
         private void Awake() {
@@ -26,7 +29,17 @@ namespace MiniUI {
                 Debug.LogError("This page does not exist on this GameObject");
             }
         }
-        
+
+        public void EnablePageWithData(string pageName, System.Object data) {
+            if (_pages.ContainsKey(pageName)) {
+                _pages[pageName]._recievedData = data;
+                _pages[pageName].enabled = true;
+            }
+            else {
+                Debug.LogError("This page does not exist on this GameObject");
+            }
+        }
+
         public void DisablePage(string pageName) {
             if (_pages.ContainsKey(pageName)) {
                 _pages[pageName].enabled = false;
@@ -39,6 +52,11 @@ namespace MiniUI {
         public void Navigate(MiniPage from, string to) {
             from.enabled = false;
             EnablePage(to);
+        }
+
+        public void NavigateWithData(MiniPage from, string to, System.Object data) {
+            from.enabled = false;
+            EnablePageWithData(to, data);
         }
     }
 }
