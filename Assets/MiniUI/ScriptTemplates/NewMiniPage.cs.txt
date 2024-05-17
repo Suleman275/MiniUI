@@ -1,0 +1,11 @@
+using UnityEngine;
+using UnityEngine.UIElements;
+using MiniUI;
+
+#ROOTNAMESPACEBEGIN#
+public class #SCRIPTNAME# : MiniPage {
+    protected override void RenderPage() {
+        base.RenderPage();
+    }
+}
+#ROOTNAMESPACEEND#
