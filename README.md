@@ -18,17 +18,46 @@ MiniUI is a small UI library that simplifies building UIs in Unity. It provides 
 
 ## Usage
 
-- **Creating a Page**: In your project explorer, Right Click > Create > MiniUI > MiniPage.
+- **Creating a Page**: In your project explorer, Right-click > Create > MiniUI > MiniPage.
+- **Adding The Page To Your Scene**:
+  - In your hierarchy, Right-click > UI Toolkit > UI Document. Attach your newly created page to this Game Object to add your UI to this scene.
 - **Adding a UI element to your page**: Within the RenderPage method use the provided methods to add UI elements to your page.
   - ```csharp
-    //To create a button
+    //To create a UI element
     var myBtn = CreateAndAddElement<Button>();
     ```
   - ```csharp
     //To create a div
     var myDiv = CreateAndAddElement<MiniElement>();
     ```
+  - ```csharp
+    //To add elements to your div
+    var myLabel = myDiv.CreateAndAddElement<Label>();
+    ```
+- **Adding styles to your Page/UI Elemets**:
+  - Add a stylesheet property to your page, and then register it within your Render method
+  - ```csharp
+    public class NewMiniPage : MiniPage {
+      [SerializeField] private StyleSheet styles;
 
+      protected override void RenderPage() {
+        AddStyleSheet(styles);
+      }
+    }
+    ```
+  - Now you can use any styles defined in your stylesheet (or the one provided with the library)
+  - ```csharp
+    //Adding styles when creating an element
+    var myBtn = CreateAndAddElement<Button>("btn", "btn-primary", "text-bold");
+    ```
+  - ```csharp
+    //Adding styles after an element has been created
+    myBtn.AddToClassList("btn");
+    ```
+  - ```csharp
+    //Removing styles after an element has been created
+    myBtn.RemoveFromClassList("btn");
+    ```
 ## About
 
 MiniUI is designed to help Unity developers build user interfaces quickly and efficiently, with a focus on simplicity and ease of use.
