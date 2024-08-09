@@ -93,44 +93,41 @@ MiniUI is a small UI library that simplifies building UIs in Unity. It provides 
     }
     ```
 
-- **Passing Data Between Pages**:
-  -```csharp
+- **Passing data between pages**:
+  - ```csharp
     using UnityEngine;
     using UnityEngine.UIElements;
     using MiniUI;
-    using System.Collections.Generic;
 
-    public class MySecondPage : MiniPage {
-    Dictionary<string, object> data;
-
-    protected override void RenderPage() {
+    public class MyFirstPage : MiniPage {
+      Dictionary<string, object> data;
+    
+      protected override void RenderPage() {
         var btn = CreateAndAddElement<Button>();
-        btn.text = "Go to first page";
+        btn.text = "Go to second page";
         btn.clicked += () => {
-            _router.NavigateWithData(this, "MyFirstPage", data);
+            _router.NavigateWithData(this, "MySecondPage", data);
         };
       }
     }
-   ```
-   
-   - ```csharp
+    ```
+  - ```csharp
+    using UnityEngine;
     using UnityEngine.UIElements;
     using MiniUI;
-    using System.Collections.Generic;
-    using System;
 
     public class MySecondPage : MiniPage {
       protected override void RenderPage() {
-       _recievedData = (Dictionary<string, object>) _recievedData; //parse it into your required type
-
-       var btn = CreateAndAddElement<Button>();
-       btn.text = "Print Data";
-       btn.clicked += () => {
-         Console.WriteLine(_recievedData);
-       };
-     }
+        _recievedData = (Dictionary<string, object>) _recievedData; //Parse it into your required type
+        var btn = CreateAndAddElement<Button>();
+        btn.text = "Print Data";
+        btn.clicked += () => {
+            print(data);
+        };
+      }
     }
-   ``` 
+    ```
+
 ## About
 
 MiniUI is designed to help Unity developers build user interfaces quickly and efficiently, with a focus on simplicity and ease of use.
