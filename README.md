@@ -95,40 +95,41 @@ MiniUI is a small UI library that simplifies building UIs in Unity. It provides 
 
 - **Passing Data Between Pages**:
   -```csharp
+    using UnityEngine;
     using UnityEngine.UIElements;
     using MiniUI;
     using System.Collections.Generic;
 
-    public class MyFirstPage : MiniPage {
-    
-      Dictionary<string, object> data;
+    public class MySecondPage : MiniPage {
+    Dictionary<string, object> data;
 
-      protected override void RenderPage() {
-          var btn = CreateAndAddElement<Button>();
-          btn.text = "Go to second page";
-          btn.clicked += () => {
-            _router.NavigateWithData(this, "MySecondPage", data);
-          };
+    protected override void RenderPage() {
+        var btn = CreateAndAddElement<Button>();
+        btn.text = "Go to first page";
+        btn.clicked += () => {
+            _router.NavigateWithData(this, "MyFirstPage", data);
+        };
       }
     }
    ```
+   
    - ```csharp
     using UnityEngine.UIElements;
-using MiniUI;
-using System.Collections.Generic;
-using System;
+    using MiniUI;
+    using System.Collections.Generic;
+    using System;
 
-public class MySecondPage : MiniPage {
-    protected override void RenderPage() {
-        _recievedData = (Dictionary<string, object>) _recievedData; //parse it into your required type
+    public class MySecondPage : MiniPage {
+      protected override void RenderPage() {
+       _recievedData = (Dictionary<string, object>) _recievedData; //parse it into your required type
 
-        var btn = CreateAndAddElement<Button>();
-        btn.text = "Print Data";
-        btn.clicked += () => {
-            Console.WriteLine(_recievedData);
-        };
+       var btn = CreateAndAddElement<Button>();
+       btn.text = "Print Data";
+       btn.clicked += () => {
+         Console.WriteLine(_recievedData);
+       };
+     }
     }
-}
    ``` 
 ## About
 
