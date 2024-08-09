@@ -20,10 +20,14 @@ MiniUI is a small UI library that simplifies building UIs in Unity. It provides 
 
 - **Creating a Page**: In your project explorer, Right Click > Create > MiniUI > MiniPage.
 - **Adding a UI element to your page**: Within the RenderPage method use the provided methods to add UI elements to your page.
-  - ```
+  - ```csharp
     //To create a button
     var myBtn = CreateAndAddElement<Button>();
-    ``` 
+    ```
+  - ```csharp
+    //To create a div
+    var myDiv = CreateAndAddElement<MiniElement>();
+    ```
 
 ## About
 
